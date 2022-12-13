@@ -51,12 +51,12 @@ import java.util.Random;
             phi = p1.subtract(BigInteger.ONE).multiply(q2.subtract(BigInteger.ONE));
         }
 // Compute the value for the decryption exponent d, which is the multiplicative inverse of e mod phi(n)
-         d = ENCRYPTION_EXPONENT.modInverse(phi);
-        System.out.println("P "+p1.toString());
-        System.out.println("Q "+q2.toString());
-        System.out.println("M "+M.toString());
-        System.out.println("Phi "+phi.toString());
-        System.out.println("D "+d.toString());
+//         d = ENCRYPTION_EXPONENT.modInverse(phi);
+//        System.out.println("P "+p1.toString());
+//        System.out.println("Q "+q2.toString());
+//        System.out.println("M "+M.toString());
+//        System.out.println("Phi "+phi.toString());
+//        System.out.println("D "+d.toString());
 
 
 }
