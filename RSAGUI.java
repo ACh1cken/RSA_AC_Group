@@ -10,7 +10,7 @@ import java.util.Random;
 public class RSAGUI extends JFrame implements ActionListener {
 
   // Declare GUI components
-  private JTextField input,display_key,display_strings,display_decrypt;
+  private JTextField input,display_p1,display_q2,display_M,display_phi,display_d,display_enstrings,display_destrings,display_decrypt;
   private JButton btnEncrypt;
   private BigInteger p1;              //prime1
     private BigInteger q2;             //prime2
@@ -26,29 +26,52 @@ public class RSAGUI extends JFrame implements ActionListener {
   public RSAGUI() {
     // Set up the window
     super("RSA Ky Generation:This project Made by (Khaled Androu, Chris, Nicholas,Humayun, Yee and Ali).");
-    setSize(1920, 1080);
+    setSize(1000, 1000);
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLayout(new FlowLayout());
 
     // Create the text fields and button
     input = new JTextField();
-	input.setPreferredSize(new Dimension(500,100));
-    display_key = new JTextField();
-	display_key.setPreferredSize(new Dimension(500,500));
-	display_strings = new JTextField();
-	display_strings.setPreferredSize(new Dimension(500,500));
-    display_decrypt = new JTextField();
-	display_decrypt.setPreferredSize(new Dimension(500,100));
+	input.setPreferredSize(new Dimension(300,50));
+    display_p1 = new JTextField();
+	display_p1.setPreferredSize(new Dimension(300,200));
+	display_q2 = new JTextField();
+	display_q2.setPreferredSize(new Dimension(300,200));
+	display_M = new JTextField();
+	display_M.setPreferredSize(new Dimension(300,200));
+	display_phi = new JTextField();
+	display_phi.setPreferredSize(new Dimension(300,200));
+	display_d = new JTextField();
+	display_d.setPreferredSize(new Dimension(300,200));
+	display_enstrings = new JTextField();
+	display_enstrings.setPreferredSize(new Dimension(300,50));
+	display_destrings = new JTextField();
+	display_destrings.setPreferredSize(new Dimension(300,50));
+	display_decrypt = new JTextField();
+	display_decrypt.setPreferredSize(new Dimension(300,50));
+	
+	
     // result field is read-only
 	display_decrypt.setEditable(false); 
-	display_strings.setEditable(false); 
-	display_key.setEditable(false); 
+	display_enstrings.setEditable(false); 
+	display_destrings.setEditable(false);
+	display_p1.setEditable(false); 
+	display_q2.setEditable(false);
+	display_M.setEditable(false);
+	display_phi.setEditable(false);
+	display_d.setEditable(false);
    btnEncrypt = new JButton("Encrypt");
    btnEncrypt.addActionListener(this); // listen for button clicks
     // Add the components to the window
-	add(display_key);
-    add(input);
-	add(display_strings);
+	add(display_p1);
+	add(display_q2);
+	add(display_q2);
+	add(display_M);
+	add(display_phi);
+	add(display_d);
+	add(display_enstrings);
+	add(display_destrings);
+	add(input);
     add(display_decrypt);
 	add(btnEncrypt);
 	
@@ -114,9 +137,15 @@ public class RSAGUI extends JFrame implements ActionListener {
 	// decrypt
 	byte[] decrypted = decrypt(encrypted);
     // Display the result in the result field
-    display_decrypt.setText(new String(decrypted));
-	display_key.setText("p1:"+string_p1+"\n"+"q2:"+string_q2+"\n"+"M:"+string_M+"\n"+"phi:"+ string_phi+"\n"+"d:"+ string_d);
-	display_strings.setText("String in Bytes: " + bytesToString(teststring.getBytes())+"\n"+"Decrypting Bytes: " + bytesToString(decrypted));
+	
+    display_decrypt.setText("Decrypted: " + new String(decrypted));
+	display_p1.setText("p1:"+string_p1);
+	display_q2.setText("q2:"+string_q2);
+	display_M.setText("M:"+string_M);
+	display_phi.setText("phi:"+ string_phi);
+	display_d.setText("d:"+ string_d);
+	display_enstrings.setText("String in Bytes: " + bytesToString(teststring.getBytes()));
+	display_destrings.setText("Decrypting Bytes: " + bytesToString(decrypted));
   }
   
   //Convert to string
