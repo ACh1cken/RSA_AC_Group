@@ -1,47 +1,39 @@
-import java.io.DataInputStream;
-import java.io.IOException;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Random;
 
-//This project Made by (Khaled Androu, Chris, Nicholas,Humayun, Yee and Ali).
-
- public class KA
-{
-    private BigInteger p1;              //prime1
-    private BigInteger q2;             //prime2
-    private BigInteger M;            //modulus
-    private BigInteger phi;     //totient
+/**
+ *
+ * @author Khaled Androu, Chris, Nicholas,Humayun, Yee and Ali
+ */
+class KA {
+    public  BigInteger p1;              //prime1
+    public  BigInteger q2;             //prime2
+    private  BigInteger M;            //modulus
+    public  BigInteger phi;     //totient
     private static final BigInteger ENCRYPTION_EXPONENT = BigInteger.valueOf(65537);          //public exponent
-    private BigInteger d;         //private exponent
-    private int bitlength = 512; //512 length for p and q
+    private  BigInteger d;         //private exponent
+    private  int bitlength = 512; //512 length for p and q
 
 
-    public KA()
+    public void generateKeys()
     {
         //prevent reuse of random number
           p1 = BigInteger.probablePrime(bitlength, new SecureRandom());
           q2 = BigInteger.probablePrime(bitlength, new SecureRandom());
+          //incase p=q
+          while(p1.equals(q2)){
+              q2 = BigInteger.probablePrime(bitlength, new SecureRandom());
+          }
           M = p1.multiply(q2);
           phi = p1.subtract(BigInteger.ONE).multiply(q2.subtract(BigInteger.ONE));
 
-        // Set e to a specific value rather than generating it randomly
-
-
-        /*
-         // Check whether e is relatively prime to totient(n)
-    if (phi.gcd(e).compareTo(BigInteger.ONE) != 0) {
-
-        // If not, choose a different value for e that is relatively prime to totient(n)
-        e = BigInteger.probablePrime(bitlength / 2, ra);
-        while (phi.gcd(e).compareTo(BigInteger.ONE) > 0 && e.compareTo(totient) < 0)
-        {
-            e.add(BigInteger.ONE);
-        }
-    }
-    d = e.modInverse(phi);
-         */
-
+ 
         // Use an encryption exponent e = 65537 and ensure that it is relatively prime to phi(n)
         while (!phi.gcd(ENCRYPTION_EXPONENT).equals(BigInteger.ONE)){
             // If it is not, go back to Step 1 and generate new values for p and q
@@ -50,47 +42,23 @@ import java.util.Random;
             M = p1.multiply(q2);
             phi = p1.subtract(BigInteger.ONE).multiply(q2.subtract(BigInteger.ONE));
         }
-// Compute the value for the decryption exponent d, which is the multiplicative inverse of e mod phi(n)
-//         d = ENCRYPTION_EXPONENT.modInverse(phi);
-//        System.out.println("P "+p1.toString());
-//        System.out.println("Q "+q2.toString());
-//        System.out.println("M "+M.toString());
-//        System.out.println("Phi "+phi.toString());
-//        System.out.println("D "+d.toString());
-
-
+       
+            
+    // Compute the value for the decryption exponent d, which is the multiplicative inverse of e mod phi(n)
+    d = ENCRYPTION_EXPONENT.modInverse(phi);
 }
 
-    public KA(BigInteger d, BigInteger M)
-    {
-
-          this.d = d;
-           this.M = M;
+    //flush keys and prepare for generation for another rsa encryption and not reuse old keys
+    public void flushKeys(){
+        p1 = null;
+        q2 = null;
+        M = null;
+        phi = null;
+        d = null;
     }
 
-    @SuppressWarnings("deprecation")
-    public static void main(String[] args) throws IOException
-    {
-        KA rsa = new KA();
-        DataInputStream in = new DataInputStream(System.in);
-        String teststring;
-        System.out.println("Enter the plain text:");
-        teststring = in.readLine();
-        System.out.println("Encrypting String: " + teststring);
-        System.out.println("String in Bytes: "
-                + bytesToString(teststring.getBytes()));
-
-        // encrypt
-        byte[] encrypted = rsa.encrypt(teststring.getBytes());
-
-        // decrypt
-        byte[] decrypted = rsa.decrypt(encrypted);
-
-        System.out.println("Decrypting Bytes: " + bytesToString(decrypted));
-        System.out.println("Decrypted String: " + new String(decrypted));
-    }
-
-    private static String bytesToString(byte[] encrypted)
+    //convet byes to string
+    public static String bytesToString(byte[] encrypted)
     {
         String test = "";
         for (byte b : encrypted)
