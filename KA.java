@@ -39,6 +39,9 @@ class KA {
             // If it is not, go back to Step 1 and generate new values for p and q
             p1 = BigInteger.probablePrime(bitlength, new SecureRandom());
             q2 = BigInteger.probablePrime(bitlength, new SecureRandom());
+            while(p1.equals(q2)){
+                q2 = BigInteger.probablePrime(bitlength, new SecureRandom());
+            }
             M = p1.multiply(q2);
             phi = p1.subtract(BigInteger.ONE).multiply(q2.subtract(BigInteger.ONE));
         }
